@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shivansh Santoki - Personal Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div id="header">
+        <div class="container">
+            <nav>
+                <img src="Images/logo.png" class="logo">
+                <ul id="sidemenu">
+                    <li><a href="#header">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#hometown">Hometown</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#education">Education</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <i class="fas fa-times" onclick="closemenu()"></i>
+                </ul>
+                <i class="fas fa-bars" onclick="openmenu()"></i>
+            </nav>
+            <div class="header-text">
+                <p>Computer Science Student | Web Developer | Tech Enthusiast</p>
+                <h1>Hi! I am <span>Shivansh</span> Santoki</h1>
+            </div>
+        </div>
+    </div>
+    <!-- --------------about-------------- -->
+    <div id="about">
+        <div class="container">
+            <div class="row">
+                <div class="about-col-1">
+                    <img src="Images/user.jpeg" class="user">
+                </div>
+                <div class="about-col-2">
+                    <h1 class="sub-title">About Me</h1>
+                    <p class="aboutme">
+                        I am a passionate technology professional with a deep love for innovative solutions and continuous learning. 
+                        Born and raised in a vibrant city, I have always been fascinated by the intersection of technology and creativity. 
+                        My journey in tech has been driven by curiosity, problem-solving skills, and a desire to make a meaningful impact 
+                        through software development and digital solutions.
+                    </p>
+                    <div class="tab-titles">
+                        <p class="tab-links active-link" onclick="opentab('skills')">
+                            Skills
+                        </p>
+                        <p class="tab-links" onclick="opentab('experience')">
+                            Experience
+                        </p>
+                        <p class="tab-links" onclick="opentab('education')">
+                            Education
+                        </p>
+                    </div>
+                    <div class="tab-contents active-tab" id="skills">
+                        <ul>
+                            <li><span>Programming Languages</span><br>C, C++, Python (learning), JavaScript (learning)</li>
+                            <li><span>Web Development</span><br>HTML, CSS, JavaScript (learning)</li>
+                            <li><span>Hardware & IoT</span><br>x86 Assembly, ESP32, MQTT, REST APIs, DHT22, MQ-135</li>
+                        </ul>
+                    </div>
+                    <div class="tab-contents" id="experience">
+                        <ul>
+                            <li><span>Smart Personalized Climate Control System</span><br>1-month project developing IoT system with sensors</li>
+                            <li><span>Competitive Programming</span><br>Codeforces Rating: 1168</li>
+                        </ul>
+                    </div>
+                    <div class="tab-contents" id="education">
+                        <ul>
+                            <li><span>2024 - Present</span><br>B.Tech in Computer Science and Engineering<br>International Institute of Information Technology, Hyderabad<br>CGPA: 8.94 (1st Year)</li>
+                            <li><span>Achievements</span><br>JEE Mains: AIR 521<br>JEE Advanced: AIR 2106<br>Class 12th (CBSE): 94.6%<br>Class 10th (CBSE): 93.4%</li>
+                        </ul>
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </div>
+    <!-- --------------hometown-------------- -->
+    <div id="hometown">
+        <div class="container">
+            <h1 class="sub-title">My Hometown</h1>
+            <p class="hometown-description">Take a virtual tour through the beautiful places of my birthplace</p>
+            <div class="hometown-gallery">
+                <div class="gallery-container">
+                    <div class="work">
+                        <img src="Images/home1.jpg">
+                        <div class="layer">
+                            <h3>Historical Landmarks</h3>
+                            <p>Ancient architecture and cultural heritage sites from my hometown</p>
+                        </div>
+                    </div>
+                    <div class="work">
+                        <img src="Images/home2.jpg">
+                        <div class="layer">
+                            <h3>Natural Beauty</h3>
+                            <p>Lush greenery and scenic landscapes that surround my birthplace</p>
+                        </div>
+                    </div>
+                    <div class="work">
+                        <img src="Images/home3.avif">
+                        <div class="layer">
+                            <h3>Local Culture</h3>
+                            <p>Traditional celebrations and cultural activities unique to my region</p>
+                        </div>
+                    </div>
+                    <div class="work">
+                        <img src="Images/home4.jpg">
+                        <div class="layer">
+                            <h3>Modern Developments</h3>
+                            <p>Contemporary architecture and urban growth in my hometown</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="scroll-indicator">
+                    <p>Scroll to see more →</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ------------skills----------------- -->
+     <div id="skills">
+        <div class="container">
+            <h1 class="sub-title">My Skills</h1>
+            <div class="services-list">
+                <div>
+                    <i class="fa-solid fa-code"></i>
+                    <h2>Programming</h2>
+                    <p>
+                        Proficient in C and C++ with strong fundamentals in data structures and algorithms.
+                        Currently learning Python and JavaScript to expand my programming toolkit.
+                    </p>
+                </div>
+                <div>
+                    <i class="fa-solid fa-crop-simple"></i>
+                    <h2>Web Development</h2>
+                    <p>
+                        Knowledgeable in HTML and CSS for building responsive websites.
+                        Learning JavaScript to create interactive web applications.
+                    </p>
+                </div>
+                <div>
+                    <i class="fa-solid fa-microchip"></i>
+                    <h2>Hardware & IoT</h2>
+                    <p>
+                        Experience with x86 Assembly, ESP32 microcontrollers, MQTT protocol, 
+                        and working with sensors like DHT22 and MQ-135 for IoT applications.
+                    </p>
+                </div>
+            </div>
+        </div>
+     </div>
+     <!-- --------------------------Education----------------------------- -->
+    <div id="education">
+        <div class="container">
+            <h1 class="sub-title">Education & Achievements</h1>
+            <div class="work-list">
+                <div class="work">
+                    <img src="Images/work-1.jpeg">
+                    <div class="layer">
+                        <h3>B.Tech in Computer Science</h3>
+                        <p>International Institute of Information Technology, Hyderabad | 2024 – Present<br>CGPA: 8.94 (1st Year)</p>
+                    </div>
+                </div>
+                <div class="work">
+                    <img src="Images/work-2.jpeg">
+                    <div class="layer">
+                        <h3>Competitive Exams</h3>
+                        <p>JEE Mains: AIR 521<br>JEE Advanced: AIR 2106</p>
+                    </div>
+                </div>
+                <div class="work">
+                    <img src="Images/work-3.jpeg">
+                    <div class="layer">
+                        <h3>School Education</h3>
+                        <p>Class 12th (CBSE): 94.6%<br>Class 10th (CBSE): 93.4%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- -------------------------------Text Analysis-------------------------------- -->
+    <div class="container">
+        <h1 class="sub-title">Text Analysis Tool</h1>
+        <div class="analysis-container">
+            <div class="input-section">
+                <textarea id="text-input" placeholder="Enter text with more than 10000 words to analyze..." rows="10"></textarea>
+                <button id="analyze-btn" class="btn">Analyze Text</button>
+                <button id="clear-btn" class="btn">Clear</button>
+            </div>
+            <div class="results-section">
+                <div class="result-box">
+                    <h3>Basic Statistics</h3>
+                    <div id="basic-stats"></div>
+                </div>
+                <div class="result-box">
+                    <h3>Pronouns Count</h3>
+                    <div id="pronouns-stats"></div>
+                </div>
+                <div class="result-box">
+                    <h3>Prepositions Count</h3>
+                    <div id="prepositions-stats"></div>
+                </div>
+                <div class="result-box">
+                    <h3>Indefinite Articles Count</h3>
+                    <div id="articles-stats"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ----------------------contact--------------------------- -->
+     <div id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="contact-left">
+                    <h1 class="sub-title">Contact Me</h1>
+                    <p><i class="fa-regular fa-envelope"></i>shivansh.santoki@gmail.com</p>
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/shivansh007?igsh=azA0eWR1bGZ0eXpt"  target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://github.com/ItsMeShivansh" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://www.linkedin.com/in/shivansh-santoki-03b685325?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                    <a href="Shivansh Santoki CV.pdf" download class="btn btn2">Download CV</a>
+                </div>
+                <div class="contact-right">
+                    <form>
+                        <input type="text" name="Name" placeholder="Your Name" required>
+                        <input type="email" name="Email" placeholder="Your Email" required> 
+                        <textarea name="Message" rows="6" placeholder="Your Message"></textarea>
+                        <button type="submit" class="btn btn2">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2025 Shivansh Santoki</p>
+        </div>
+     </div>
+<script src="script.js"></script>
+</body>
+</html>
