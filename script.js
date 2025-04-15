@@ -40,11 +40,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (element.tagName === 'SELECT') return 'dropdown';
         if (element.tagName === 'TEXTAREA') return 'textarea';
         
-        // Check for specific sections
+        // Check for specific sections (updated to match current HTML)
+        if (element.closest('#header')) return 'header_section';
         if (element.closest('#about')) return 'about_section';
         if (element.closest('#hometown')) return 'hometown_section';
-        if (element.closest('#skills')) return 'skills_section';
-        if (element.closest('#education')) return 'education_section';
+        if (element.closest('#myskills')) return 'skills_section';
+        if (element.closest('#myeducation')) return 'education_section';
+        if (element.closest('#textanalysis')) return 'textanalysis_section';
         if (element.closest('#contact')) return 'contact_section';
         
         // Check for classes
@@ -76,8 +78,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (now - lastScrollTime > scrollDebounceTime) {
             lastScrollTime = now;
             
-            // Determine which section is currently visible
-            const sections = ['header', 'about', 'hometown', 'skills', 'education', 'contact'];
+            // Determine which section is currently visible (updated section IDs)
+            const sections = ['header', 'about', 'hometown', 'myskills', 'myeducation', 'textanalysis', 'contact'];
             let currentSection = '';
             
             for (const section of sections) {
@@ -118,58 +120,37 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-
 // ----------------------------------------------------Q3---------------------------------------------------
 
-
 document.addEventListener('DOMContentLoaded', function() {
-    // Check if analysis section exists, if not, create it
-    let analysisSection = document.getElementById('text-analysis');
-    
-    if (!analysisSection) {
-        // Create analysis section
-        analysisSection = document.createElement('div');
-        analysisSection.id = 'text-analysis';
-        const contact = document.getElementById('contact');
-        document.body.insertBefore(analysisSection, contact);
-        
-        // Add section content
-        analysisSection.innerHTML = `
-            
-        `;
-        
-        // Add event listeners
-        document.getElementById('analyze-btn').addEventListener('click', analyzeText);
-        document.getElementById('clear-btn').addEventListener('click', clearText);
-    }
-    
-    // Text analysis function
+    // Initialize event listeners
+    document.getElementById('analyze-btn').addEventListener('click', analyzeText);
+    document.getElementById('clear-btn').addEventListener('click', clearText);
+
+    // Main analysis function
     function analyzeText() {
-        const text = document.getElementById('text-input').value;
+        const text = document.getElementById('text-input').value.trim();
         
-        if (text.trim() === '') {
+        if (!text) {
             alert('Please enter text to analyze.');
             return;
         }
         
-        // Calculate basic statistics
+        // Process all analyses
         const stats = getBasicStats(text);
         displayBasicStats(stats);
         
-        // Analyze pronouns
         const pronouns = countPronouns(text);
         displayPronouns(pronouns);
         
-        // Analyze prepositions
         const prepositions = countPrepositions(text);
         displayPrepositions(prepositions);
         
-        // Analyze indefinite articles
         const articles = countIndefiniteArticles(text);
         displayArticles(articles);
     }
     
-    // Clear function
+    // Clear all fields
     function clearText() {
         document.getElementById('text-input').value = '';
         document.getElementById('basic-stats').innerHTML = '';
@@ -178,28 +159,85 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('articles-stats').innerHTML = '';
     }
     
-    // Calculate basic statistics
+    // --- Analysis Functions ---
+    
     function getBasicStats(text) {
-        const letterCount = (text.match(/[a-zA-Z]/g) || []).length;
-        const wordCount = text.trim().split(/\s+/).length;
+        const letterCount = (text.match(/[a-z]/gi) || []).length;
+        const wordCount = text.split(/\s+/).filter(word => word.length > 0).length;
         const spaceCount = (text.match(/\s/g) || []).length;
         const newlineCount = (text.match(/\n/g) || []).length;
-        // Special symbols: anything that isn't a letter, number, space, or newline
-        const specialSymbolCount = (text.match(/[^a-zA-Z0-9\s]/g) || []).length;
+        const specialSymbolCount = (text.match(/[^a-z\s]/gi) || []).length;
         
-        return {
-            letters: letterCount,
-            words: wordCount,
-            spaces: spaceCount,
-            newlines: newlineCount,
-            specialSymbols: specialSymbolCount
+        return { 
+            letters: letterCount, 
+            words: wordCount, 
+            spaces: spaceCount, 
+            newlines: newlineCount, 
+            specialSymbols: specialSymbolCount 
         };
     }
     
-    // Display basic statistics
+    function countPronouns(text) {
+        const pronounsList = [
+            'i', 'me', 'my', 'mine', 'myself', 'you', 'your', 'yours', 'yourself', 'yourselves',
+            'he', 'him', 'his', 'himself', 'she', 'her', 'hers', 'herself', 'it', 'its', 'itself',
+            'we', 'us', 'our', 'ours', 'ourselves', 'they', 'them', 'their', 'theirs', 'themselves',
+            'who', 'whom', 'whose', 'which', 'that', 'this', 'these', 'those', 'what', 'anyone',
+            'anybody', 'anything', 'everyone', 'everybody', 'everything', 'someone', 'somebody', 'something'
+        ];
+        
+        const pronounRegex = new RegExp(`\\b(${pronounsList.join('|')})\\b`, 'gi');
+        const matches = text.toLowerCase().match(pronounRegex) || [];
+        
+        const counts = {};
+        matches.forEach(word => {
+            counts[word] = (counts[word] || 0) + 1;
+        });
+        
+        return counts;
+    }
+    
+    function countPrepositions(text) {
+        const prepositionsList = [
+            'about', 'above', 'across', 'after', 'against', 'along', 'amid', 'among', 'around', 'at',
+            'before', 'behind', 'below', 'beneath', 'beside', 'between', 'beyond', 'by', 'concerning',
+            'despite', 'down', 'during', 'except', 'for', 'from', 'in', 'inside', 'into', 'like', 'near',
+            'of', 'off', 'on', 'onto', 'out', 'outside', 'over', 'past', 'regarding', 'since', 'through',
+            'to', 'toward', 'under', 'until', 'up', 'upon', 'with', 'within', 'without'
+        ];
+        
+        const prepSet = new Set(prepositionsList);
+        const words = text.toLowerCase().match(/\b\w+\b/g) || [];
+        
+        const counts = {};
+        words.forEach(word => {
+            if (prepSet.has(word)) {
+                counts[word] = (counts[word] || 0) + 1;
+            }
+        });
+        
+        return counts;
+    }
+    
+    function countIndefiniteArticles(text) {
+        const articlesList = ['a', 'an', 'some', 'any'];
+        const words = text.toLowerCase().match(/\b\w+\b/g) || [];
+        
+        const counts = { 'a': 0, 'some': 0, 'any': 0, 'an' : 0 };
+        words.forEach(word => {
+            if (word === 'a') counts['a']++;
+            else if (word === 'an') counts['a']++;
+            else if (word === 'some') counts.some++;
+            else if (word === 'any') counts.any++;
+        });
+        
+        return counts;
+    }
+    
+    // --- Display Functions ---
+    
     function displayBasicStats(stats) {
-        const basicStatsDiv = document.getElementById('basic-stats');
-        basicStatsDiv.innerHTML = `
+        document.getElementById('basic-stats').innerHTML = `
             <ul>
                 <li>Letters: ${stats.letters}</li>
                 <li>Words: ${stats.words}</li>
@@ -210,186 +248,29 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
     }
     
-    // Count pronouns
-    function countPronouns(text) {
-        // List of common pronouns
-        const pronounsList = [
-            // Personal pronouns
-            'i', 'me', 'my', 'mine', 'myself',
-            'you', 'your', 'yours', 'yourself', 'yourselves',
-            'he', 'him', 'his', 'himself',
-            'she', 'her', 'hers', 'herself',
-            'it', 'its', 'itself',
-            'we', 'us', 'our', 'ours', 'ourselves',
-            'they', 'them', 'their', 'theirs', 'themselves',
-            
-            // Relative pronouns
-            'who', 'whom', 'whose', 'which', 'that',
-            
-            // Demonstrative pronouns
-            'this', 'that', 'these', 'those',
-            
-            // Interrogative pronouns
-            'what', 'which', 'who', 'whom', 'whose',
-            
-            // Indefinite pronouns
-            'anyone', 'anybody', 'anything', 
-            'everyone', 'everybody', 'everything',
-            'someone', 'somebody', 'something',
-            'no one', 'nobody', 'nothing',
-            'all', 'another', 'any', 'both', 'each', 'either', 
-            'few', 'many', 'neither', 'none', 'one', 'several', 'some'
-        ];
-        
-        // Tokenize and clean the text
-        const words = text.toLowerCase()
-            .replace(/[^\w\s]|_/g, " ")
-            .replace(/\s+/g, " ")
-            .trim()
-            .split(' ');
-        
-        // Count pronouns
-        const pronounCounts = {};
-        
-        for (const pronoun of pronounsList) {
-            pronounCounts[pronoun] = 0;
-        }
-        
-        for (const word of words) {
-            if (pronounsList.includes(word)) {
-                pronounCounts[word]++;
-            }
-        }
-        
-        // Filter out pronouns with zero count
-        const filteredPronouns = {};
-        for (const pronoun in pronounCounts) {
-            if (pronounCounts[pronoun] > 0) {
-                filteredPronouns[pronoun] = pronounCounts[pronoun];
-            }
-        }
-        
-        return filteredPronouns;
-    }
-    
-    // Display pronouns
     function displayPronouns(pronouns) {
-        const pronounsDiv = document.getElementById('pronouns-stats');
-        
-        if (Object.keys(pronouns).length === 0) {
-            pronounsDiv.innerHTML = '<p>No pronouns found in the text.</p>';
-            return;
-        }
-        
-        let html = '<ul>';
-        for (const pronoun in pronouns) {
-            html += `<li>${pronoun}: ${pronouns[pronoun]}</li>`;
-        }
-        html += '</ul>';
-        
-        pronounsDiv.innerHTML = html;
+        const div = document.getElementById('pronouns-stats');
+        div.innerHTML = Object.keys(pronouns).length ? 
+            `<ul>${Object.entries(pronouns).map(([word, count]) => `<li>${word}: ${count}</li>`).join('')}</ul>` : 
+            '<p>No pronouns found.</p>';
     }
     
-    // Count prepositions
-    function countPrepositions(text) {
-        // List of common prepositions
-        const prepositionsList = [
-            'about', 'above', 'across', 'after', 'against', 'along', 'amid', 'among',
-            'around', 'at', 'before', 'behind', 'below', 'beneath', 'beside', 'between',
-            'beyond', 'by', 'concerning', 'considering', 'despite', 'down', 'during',
-            'except', 'for', 'from', 'in', 'inside', 'into', 'like', 'near', 'of',
-            'off', 'on', 'onto', 'out', 'outside', 'over', 'past', 'regarding',
-            'round', 'since', 'through', 'throughout', 'to', 'toward', 'towards',
-            'under', 'underneath', 'until', 'unto', 'up', 'upon', 'with', 'within', 'without'
-        ];
-        
-        // Tokenize and clean the text
-        const words = text.toLowerCase()
-            .replace(/[^\w\s]|_/g, " ")
-            .replace(/\s+/g, " ")
-            .trim()
-            .split(' ');
-        
-        // Count prepositions
-        const prepositionCounts = {};
-        
-        for (const preposition of prepositionsList) {
-            prepositionCounts[preposition] = 0;
-        }
-        
-        for (const word of words) {
-            if (prepositionsList.includes(word)) {
-                prepositionCounts[word]++;
-            }
-        }
-        
-        // Filter out prepositions with zero count
-        const filteredPrepositions = {};
-        for (const preposition in prepositionCounts) {
-            if (prepositionCounts[preposition] > 0) {
-                filteredPrepositions[preposition] = prepositionCounts[preposition];
-            }
-        }
-        
-        return filteredPrepositions;
-    }
-    
-    // Display prepositions
     function displayPrepositions(prepositions) {
-        const prepositionsDiv = document.getElementById('prepositions-stats');
-        
-        if (Object.keys(prepositions).length === 0) {
-            prepositionsDiv.innerHTML = '<p>No prepositions found in the text.</p>';
-            return;
-        }
-        
-        let html = '<ul>';
-        for (const preposition in prepositions) {
-            html += `<li>${preposition}: ${prepositions[preposition]}</li>`;
-        }
-        html += '</ul>';
-        
-        prepositionsDiv.innerHTML = html;
+        const div = document.getElementById('prepositions-stats');
+        div.innerHTML = Object.keys(prepositions).length ? 
+            `<ul>${Object.entries(prepositions).map(([word, count]) => `<li>${word}: ${count}</li>`).join('')}</ul>` : 
+            '<p>No prepositions found.</p>';
     }
     
-    // Count indefinite articles
-    function countIndefiniteArticles(text) {
-        // List of indefinite articles
-        const articlesList = ['a', 'an', 'some', 'any'];
-        
-        // Tokenize and clean the text
-        const words = text.toLowerCase()
-            .replace(/[^\w\s]|_/g, " ")
-            .replace(/\s+/g, " ")
-            .trim()
-            .split(' ');
-        
-        // Count articles
-        const articleCounts = {};
-        
-        for (const article of articlesList) {
-            articleCounts[article] = 0;
-        }
-        
-        for (const word of words) {
-            if (articlesList.includes(word)) {
-                articleCounts[word]++;
-            }
-        }
-        
-        return articleCounts;
-    }
-    
-    // Display articles
     function displayArticles(articles) {
-        const articlesDiv = document.getElementById('articles-stats');
-        
-        let html = '<ul>';
-        for (const article in articles) {
-            html += `<li>${article}: ${articles[article]}</li>`;
-        }
-        html += '</ul>';
-        
-        articlesDiv.innerHTML = html;
+        document.getElementById('articles-stats').innerHTML = `
+            <ul>
+                <li>a: ${articles.a}</li>
+                <li>an: ${articles.an}</li>
+                <li>some: ${articles.some}</li>
+                <li>any: ${articles.any}</li>
+            </ul>
+        `;
     }
 });
+

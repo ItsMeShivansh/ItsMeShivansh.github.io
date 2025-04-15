@@ -224,9 +224,9 @@ nav ul li a:hover::after{
     50% { opacity: 1; }
     100% { opacity: 0.5; }
 }
-/* -------------------------skills---------------------------- */
+/* -------------------------myskills---------------------------- */
 
-#skills{
+#myskills{
     padding: 30px 0;
 }
 
@@ -268,7 +268,7 @@ nav ul li a:hover::after{
 
 /* -----------------------education------------- */
 
-#education{
+#myeducation{
     padding: 50px 0;
 }
 
